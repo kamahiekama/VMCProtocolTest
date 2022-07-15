@@ -469,6 +469,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1266db930c508a04ca8c05df182ff97b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Host: 127.0.0.1
+  Port: 39539
 --- !u!4 &1216235181
 Transform:
   m_ObjectHideFlags: 0
