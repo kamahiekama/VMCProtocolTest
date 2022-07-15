@@ -1,29 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using OscCore;
 using System.Text;
 using System;
+using uOSC;
 
 public class ClientSample : MonoBehaviour
 {
-    public string Host = "127.0.0.1";
-    public int Port = 39539;
-
-    private OscClient client;
+    private uOscClient client;
 
     // Start is called before the first frame update
     void Start()
     {
-        client = new OscClient(Host, Port);
+        client = GetComponent<uOscClient>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+//        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Send");
+//            Debug.Log("Send");
             Vector3 p = transform.position;
             Quaternion q = transform.rotation;
             Vector3 s = transform.localScale;
@@ -43,18 +40,12 @@ public class ClientSample : MonoBehaviour
             //(float){ o.x}
             //(float){ o.y}
             //(float){ o.z}
-            byte[] baName = Encoding.GetEncoding("UTF-8").GetBytes("root");
-            byte[] ba = new byte[baName.Length + 13 * 4];
-            for (int i = 0; i < baName.Length; i++)
-            {
-                ba[i] = baName[i];
-            }
+            //            client.Send("/VMC/Ext/Root/Pos", "root", p.x, p.y, p.z, q.x, q.y, q.z, q.w, s.x, s.y, s.z, (float)0, (float)0, (float)0);
+            client.Send("/VMC/Ext/Bone/Pos", "Hips", p.x, p.y, p.z, q.x, q.y, q.z, q.w);
+            client.Send("/VMC/Ext/Root/Pos", "root", p.x, p.y, p.z, q.x, q.y, q.z, q.w);
+            client.Send("/VMC/Ext/OK", 0);
+            client.Send("/VMC/Ext/T", Time.realtimeSinceStartup);
 
-            append(ba, baName.Length + 0, p.x);
-            append(ba, baName.Length + 4, p.y);
-            append(ba, baName.Length + 8, p.z);
-
-            client.Send("/VMC/Ext/Root/Pos", ba, ba.Length);
         }
     }
 
