@@ -79,6 +79,7 @@ public class ClientSample : MonoBehaviour
     void Update()
     {
         // camera
+        // カメラが必要かは受け取るアプリ次第。とりあえず無くて良い。
         /*
         {
             Transform t = Camera.main.transform;
@@ -90,6 +91,7 @@ public class ClientSample : MonoBehaviour
 
         // blendshape value
         // /VMC/Ext/Blend/Val
+        // 口の動きなど。必要。
 
         // bone pos
         foreach (HumanBodyBones bone in bones)
@@ -101,12 +103,14 @@ public class ClientSample : MonoBehaviour
             client.Send("/VMC/Ext/Bone/Pos", "" + bone, p.x, p.y, p.z, q.x, q.y, q.z, q.w);
         }
 
+        // root
         {
             Transform t = vrmRoot;
             Vector3 p = t.position;
             Quaternion q = t.rotation;
             Vector3 s = t.lossyScale;
             client.Send("/VMC/Ext/Root/Pos", "root", p.x, p.y, p.z, q.x, q.y, q.z, q.w);
+            // VSee が対応していない？
             //client.Send("/VMC/Ext/Root/Pos", "root", p.x, p.y, p.z, q.x, q.y, q.z, q.w, s.x, s.y, s.z, (float)0, (float)0, (float)0);
         }
         client.Send("/VMC/Ext/OK", 0);
